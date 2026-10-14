@@ -91,6 +91,7 @@ http://localhost:8000
 ## Frontend Setup
 
 ```bash
+cd frontend
 npm install
 npm run dev
 ```
@@ -118,16 +119,22 @@ GROQ_API_KEY=your_api_key_here
 ```
 tablyze/
 │
-├── app/
-├── components/
 ├── backend/
+│   ├── .env
 │   ├── main.py
 │   ├── requirements.txt
-│   └── .env
+│   └── ...
 │
-├── public/
-├── screenshots/
-└── README.md
+├── frontend/
+│   ├── app/
+│   ├── public/
+│   ├── package.json
+│   ├── package-lock.json
+│   └── ...
+│
+├── .gitignore
+├── README.md
+└── LICENSE
 ```
 
 ---
