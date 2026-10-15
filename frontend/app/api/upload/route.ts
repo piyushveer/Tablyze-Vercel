@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { BackendConfigurationError, getBackendUrl } from "../../lib/backend";
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,13 +13,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Determine the backend URL.
-    // In production (Vercel), set BACKEND_URL or NEXT_PUBLIC_API_URL
-    // to the deployed backend URL, e.g. https://tablyze-cssx.vercel.app
-    const backendUrl =
-      process.env.BACKEND_URL ||
-      process.env.NEXT_PUBLIC_API_URL ||
-      "http://127.0.0.1:8000";
+    const backendUrl = getBackendUrl();
 
     console.log(`[Upload Proxy] Forwarding to backend: ${backendUrl}/upload`);
 
@@ -60,6 +55,7 @@ export async function POST(request: NextRequest) {
       error instanceof Error
         ? error.message
         : "Unable to proxy the upload request to the backend.";
-    return NextResponse.json({ error: message }, { status: 502 });
+    const status = error instanceof BackendConfigurationError ? 500 : 502;
+    return NextResponse.json({ error: message }, { status });
   }
 }

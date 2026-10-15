@@ -50,7 +50,6 @@ venv/
 backend/venv/
 __pycache__/
 *.pyc
-.env 
 # python cache
 __pycache__/
 *.pyc

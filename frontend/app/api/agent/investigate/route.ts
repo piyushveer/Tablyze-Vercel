@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { BackendConfigurationError, getBackendUrl } from "../../../lib/backend";
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,10 +30,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const backendUrl =
-      process.env.BACKEND_URL ||
-      process.env.NEXT_PUBLIC_API_URL ||
-      "http://127.0.0.1:8000";
+    const backendUrl = getBackendUrl();
 
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 120000);
@@ -69,6 +67,12 @@ export async function POST(request: NextRequest) {
     }
   } catch (error) {
     console.error("[Agent Proxy] Error:", error);
+    if (error instanceof BackendConfigurationError) {
+      return NextResponse.json(
+        { error: error.message, code: "backend_configuration" },
+        { status: 500 }
+      );
+    }
     return NextResponse.json(
       {
         error: "Unable to reach the investigation service. Please try again.",
