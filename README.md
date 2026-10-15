@@ -112,8 +112,9 @@ Create `backend/.env` for backend-only secrets.
 GROQ_API_KEY=your_api_key_here
 ```
 
-For local development, the frontend proxy defaults to `http://127.0.0.1:8000`.
-To use a different backend, create `frontend/.env.local` and set:
+The frontend proxy defaults to the deployed backend at
+`https://tablyze-vercel.vercel.app`. To override it (for example, to use a
+local backend), create `frontend/.env.local` and set:
 
 ```env
 BACKEND_URL=http://127.0.0.1:8000
